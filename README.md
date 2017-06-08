@@ -46,6 +46,9 @@ QQ：9166401618<br>
 ViewPager mViewPager;//ViewPager的引用
 TabHorizontalScrollView mHorizontalScrollView;//滑动父布局引用
 TabLinearLayout mViewPagerHeadLayout;//Tab标签父布局引用
+```
+### 3、判定顶部布局滑动回弹和滑入
+```java
 /**----------初始化代码不写了-----------*/
 private void init(){
     /**
@@ -91,4 +94,30 @@ private void init(){
             }
         });
 }
+```
+### 4、监听当前用户点击Tab标签的索引
+```java
+mViewPagerHeadLayout.setOnScrollSelect(new TabLinearLayout.OnScrollSelect() {
+    @Override
+    public void onScrollSelect(int index) {
+       /**
+         * 回调事件，当点击顶部TAB时触发的事件，参数index代表点击的第几个TAB
+         * */
+     mViewPager.setCurrentItem(/**前面为了对称加了两个空的TextView*/index-2,true);
+     }
+});
+```
+#### 5、设置ViewPager的滑动监听，当用户主动滑动ViewPager的时候要带着TabLayout滑动
+```java
+mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        int width=YWindow.getWindowDisplayMetrics(MainActivity.this).widthPixels/5;
+        /**
+          * 设置HorizontalScrollView带动画的滑动
+          * */
+        mHorizontalScrollView.smoothScrollTo((int) ((positionOffset*width)+(position*width)),0);
+    }
+});
 ```
