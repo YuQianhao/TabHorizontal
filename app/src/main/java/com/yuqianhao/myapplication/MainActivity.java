@@ -31,8 +31,6 @@ public class MainActivity extends AppCompatActivity {
 
     private Handler mHandler=new Handler(Looper.getMainLooper());
 
-    private boolean isScrollView=false;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,7 +60,6 @@ public class MainActivity extends AppCompatActivity {
                     mHandler.post(new Runnable() {
                         @Override
                         public void run() {
-                            isScrollView=true;
                             mHorizontalScrollView.smoothScrollTo((index+1)*mTabWidth,0);
                             mViewPager.setCurrentItem(index+1,false);
                         }
@@ -71,7 +68,6 @@ public class MainActivity extends AppCompatActivity {
                     mHandler.post(new Runnable() {
                         @Override
                         public void run() {
-                            isScrollView=true;
                             mHorizontalScrollView.smoothScrollTo((index)*mTabWidth,0);
                             mViewPager.setCurrentItem(index,false);
                         }
@@ -99,10 +95,6 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                if(isScrollView){
-                    isScrollView=false;
-                    return;
-                }
                 int width=YWindow.getWindowDisplayMetrics(MainActivity.this).widthPixels/5;
                 /**
                  * 设置HorizontalScrollView带动画的滑动
